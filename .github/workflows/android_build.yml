@@ -21,13 +21,16 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x android_source/gradlew || true
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: 8.2.1
 
     - name: Build with Gradle
       run: |
         cd android_source
-        ./gradlew assembleDebug || gradle assembleDebug
+        chmod +x gradlew || true
+        gradle assembleDebug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
