@@ -1,21 +1,21 @@
 package com.quyetdev.bankforwarder
 
+import android.content.Intent
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
 import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 class BankNotificationService : NotificationListenerService() {
 
-    private val client = OkHttpClient()
     private lateinit var settings: SettingsManager
+    private val client = OkHttpClient()
 
     override fun onCreate() {
         super.onCreate()
         settings = SettingsManager(this)
+        sendStatusBroadcast("Dịch vụ bắt thông báo đã khởi động.")
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
@@ -26,46 +26,70 @@ class BankNotificationService : NotificationListenerService() {
         val title = extras.getString("android.title") ?: ""
         val text = extras.getCharSequence("android.text")?.toString() ?: ""
 
-        // Lọc các app ngân hàng phổ biến
+        // Lọc các app ngân hàng phổ biến (Cập nhật thêm Techcombank Mobile)
         val bankPackages = listOf(
             "com.mbmobile", // MB Bank
             "com.vietcombank.mgcb", // Vietcombank
             "com.vnpay.vcb", // VCB Digibank
-            "vn.com.techcombank.bb.app", // Techcombank
+            "vn.com.techcombank.bb.app", // Techcombank cũ
+            "com.techcombank.tdm2020", // Techcombank Mobile mới
             "com.zing.zalopay", // ZaloPay
-            "vn.com.vpb.neo" // VPBank
+            "vn.com.vpb.neo", // VPBank
+            "com.msbmobile", // MSB
+            "com.tpb.mb.android" // TPBank
         )
 
-        if (bankPackages.contains(packageName) || text.contains("QUYETDEV", ignoreCase = true)) {
+        val isBankApp = bankPackages.contains(packageName)
+        val hasKeyword = text.contains("QUYETDEV", ignoreCase = true)
+
+        if (isBankApp || hasKeyword) {
+            sendStatusBroadcast("Phát hiện thông báo từ: $packageName")
             sendToServer(title, text)
         }
     }
 
     private fun sendToServer(title: String, text: String) {
         val url = settings.apiUrl
-        if (url.isEmpty()) return
+        val token = settings.apiToken
 
-        val formBody = FormBody.Builder()
-            .add("token", settings.apiToken)
+        if (url.isEmpty()) {
+            sendStatusBroadcast("Lỗi: Chưa cấu hình URL Webhook.")
+            return
+        }
+
+        val body = FormBody.Builder()
+            .add("token", token)
             .add("title", title)
-            .add("text", text)
+            .add("content", text)
             .build()
 
         val request = Request.Builder()
             .url(url)
-            .header("X-Private-Token", settings.apiToken)
-            .post(formBody)
+            .addHeader("X-Private-Token", token)
+            .post(body)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e("BankService", "Failed to send: ${e.message}")
+                sendStatusBroadcast("Gửi thất bại: ${e.message}")
             }
 
             override fun onResponse(call: Call, response: Response) {
-                Log.d("BankService", "Response: ${response.code}")
+                val code = response.code
+                if (code == 200) {
+                    sendStatusBroadcast("Đã gửi thành công về Website! ✅")
+                } else {
+                    sendStatusBroadcast("Lỗi Server ($code): ${response.message}")
+                }
                 response.close()
             }
         })
+    }
+    
+    private fun sendStatusBroadcast(message: String) {
+        val intent = Intent("com.quyetdev.LOG_UPDATE")
+        intent.putExtra("message", message)
+        sendBroadcast(intent)
+        Log.d("BankService", message)
     }
 }
