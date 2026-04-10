@@ -1,0 +1,20 @@
+# PHP
+.env
+scratch/
+bank_log.txt
+api/bank_log.txt
+api/log_ignored.txt
+
+# Android
+.gradle/
+build/
+app/build/
+*.apk
+*.jks
+local.properties
+
+# System
+.DS_Store
+Thumbs.db
+.gemini/
+.antigravity/

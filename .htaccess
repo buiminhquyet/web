@@ -1,0 +1,42 @@
+# QUYETDEV Shop - High-Level Security Firewall
+
+# 1. Prevent Directory Browsing
+Options -Indexes
+
+# 2. Protect sensitive files
+<FilesMatch "^\.env|^\.env\.example|^\.git|^database\.sql|^composer\.json|^composer\.lock">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# 3. Block access to system directories (Exempting AJAX and public resources)
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !includes/(ajax|assets|js|css)/ [NC]
+RewriteRule ^(includes|scratch|cron|admin/header\.php|admin/functions\.php)($|/) - [F,L]
+
+# 4. Security Headers
+<IfModule mod_headers.c>
+    # Prevent website from being embedded in an iframe (Anti-Clickjacking)
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # Enable XSS filtering in browsers
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Prevent MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Control how much referrer information is shared
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Basic Content Security Policy
+    # Header set Content-Security-Policy "default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https: data:;"
+</IfModule>
+
+# 5. Disable Server Signature for better security
+ServerSignature Off
+
+# 6. Pretty URLs (Remove .php extension for professional look)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]

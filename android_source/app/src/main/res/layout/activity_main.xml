@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#f8fafc">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QUYETDEV Bank Forwarder"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#1e293b"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/txtPermissionStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trạng thái quyền: Đang kiểm tra..."
+        android:textSize="14sp"
+        android:layout_marginBottom="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cấu hình API Webhook"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp"/>
+
+    <EditText
+        android:id="@+id/editUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="https://yourdomain.com/api/bank_callback_private.php"
+        android:inputType="textUri"
+        android:background="@drawable/edit_text_bg"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"/>
+
+    <EditText
+        android:id="@+id/editToken"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mã bảo mật (Token)"
+        android:inputType="text"
+        android:background="@drawable/edit_text_bg"
+        android:padding="15dp"
+        android:layout_marginBottom="20dp"/>
+
+    <Switch
+        android:id="@+id/switchService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kích hoạt dịch vụ"
+        android:textStyle="bold"
+        android:layout_marginBottom="30dp"/>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="LƯU CÀI ĐẶT"
+        android:backgroundTint="#5c54e5"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="12dp"/>
+
+    <Button
+        android:id="@+id/btnPermission"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="CẤP QUYỀN TRUY CẬP THÔNG BÁO"
+        android:backgroundTint="#10b981"
+        android:textColor="#ffffff"/>
+
+</LinearLayout>
