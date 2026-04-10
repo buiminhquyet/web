@@ -74,15 +74,20 @@ class BankNotificationService : NotificationListenerService() {
         val bigText = extras.getCharSequence("android.bigText")?.toString() ?: ""
         val summaryText = extras.getCharSequence("android.summaryText")?.toString() ?: ""
         
-        val fullContent = "$title | $text | $subText | $bigText | $summaryText".trim()
+        // 2. Gộp tất cả lại thành một chuỗi văn bản khổng lồ để quét
+        val fullContent = "App: $packageName | Title: $title | Text: $text | Sub: $subText | Big: $bigText | Sum: $summaryText".trim()
         
+        // LUÔN LUÔN HIỆN LÊN NHẬT KÝ ĐỂ THEO DÕI (X-RAY MODE)
+        if (fullContent.isNotEmpty()) {
+            sendStatusBroadcast("THẤY: $fullContent")
+        }
+        
+        // 3. Quy tắc gửi lên Server: Phải chứa từ khóa QUYETDEV
         val hasKeyword = fullContent.contains("QUYETDEV", ignoreCase = true)
 
         if (hasKeyword && fullContent.isNotEmpty()) {
-            sendStatusBroadcast("Phát hiện dữ liệu: $fullContent")
+            sendStatusBroadcast("==> KHỚP 'QUYETDEV'! Đang gửi lên Website...")
             sendToServer(title, fullContent)
-        } else {
-            Log.d("BankService", "Bỏ qua thông báo không liên quan: $packageName")
         }
     }
 
