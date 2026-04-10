@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f8fafc">
+    android:background="#0f172a">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,52 +14,48 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="QUYETDEV Bank"
-            android:textColor="#1e293b"
-            android:textSize="28sp"
+            android:textColor="#f8fafc"
+            android:textSize="32sp"
             android:textStyle="bold"
             android:layout_marginBottom="5dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hệ thống tự động nạp tiền thông minh"
-            android:textColor="#64748b"
-            android:textSize="14sp"
+            android:text="PHIÊN BẢN V3.5 - SIÊU TRƯỜNG TỒN"
+            android:textColor="#38bdf8"
+            android:textSize="12sp"
+            android:letterSpacing="0.1"
+            android:textStyle="bold"
             android:layout_marginBottom="25dp"/>
 
-        <!-- Connection Status Card -->
+        <!-- Permission Card (Neon Border style) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/card_bg"
+            android:background="@drawable/card_bg_dark"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:elevation="4dp"
-            android:layout_marginBottom="20dp">
+            android:padding="24dp"
+            android:layout_marginBottom="24dp">
 
             <TextView
                 android:id="@+id/txtPermissionStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Trạng thái quyền: ĐANG KIỂM TRA"
+                android:text="TRẠNG THÁI QUYỀN: CHƯA CẤP"
+                android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_marginBottom="10dp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#e2e8f0"
-                android:layout_marginBottom="10dp"/>
+                android:textSize="18sp"
+                android:layout_marginBottom="16dp"/>
 
             <Button
                 android:id="@+id/btnPermission"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:text="CẤP QUYỀN TRUY CẬP THÔNG BÁO"
-                android:backgroundTint="#10b981"
+                android:layout_height="65dp"
+                android:text="CẤP QUYỀN THÔNG BÁO"
+                android:backgroundTint="#ec4899"
                 android:textColor="#ffffff"
-                style="@style/Widget.Material3.Button"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -68,73 +63,81 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/card_bg"
+            android:background="@drawable/card_bg_dark"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:elevation="4dp"
-            android:layout_marginBottom="20dp">
+            android:padding="24dp"
+            android:layout_marginBottom="24dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CẤU HÌNH HỆ THỐNG"
-                android:textStyle="bold"
-                android:textColor="#475569"
-                android:textSize="13sp"
-                android:layout_marginBottom="15dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Địa chỉ Webhook (URL)"
-                android:textSize="12sp"
+                android:text="CẤU HÌNH WEBHOOK"
                 android:textColor="#94a3b8"
-                android:layout_marginBottom="5dp"/>
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ĐỊA CHỈ API (URL)"
+                android:textSize="11sp"
+                android:textColor="#38bdf8"
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp"/>
 
             <EditText
                 android:id="@+id/editUrl"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:background="@drawable/input_bg"
-                android:hint="https://yourdomain.com/api/..."
-                android:padding="15dp"
-                android:textSize="14sp"
+                android:layout_height="58dp"
+                android:background="@drawable/input_bg_dark"
+                android:hint="https://..."
+                android:padding="16dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#475569"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:inputType="textUri"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="18dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mã bảo mật (Token)"
-                android:textSize="12sp"
-                android:textColor="#94a3b8"
-                android:layout_marginBottom="5dp"/>
+                android:text="TOKEN BẢO MẬT"
+                android:textSize="11sp"
+                android:textColor="#38bdf8"
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp"/>
 
             <EditText
                 android:id="@+id/editToken"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:background="@drawable/input_bg"
-                android:hint="Nhập Token bảo mật..."
-                android:padding="15dp"
-                android:textSize="14sp"
+                android:layout_height="58dp"
+                android:background="@drawable/input_bg_dark"
+                android:hint="••••••••••••"
+                android:padding="16dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#475569"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:inputType="textPassword"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="24dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="24dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Trạng thái dịch vụ"
+                    android:text="DỊCH VỤ CHẠY NGẦM"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="#1e293b"/>
+                    android:textColor="#ffffff"/>
 
                 <Switch
                     android:id="@+id/switchService"
@@ -150,72 +153,84 @@
                 <Button
                     android:id="@+id/btnSave"
                     android:layout_width="0dp"
-                    android:layout_height="55dp"
+                    android:layout_height="65dp"
                     android:layout_weight="1"
                     android:text="LƯU LẠI"
-                    android:backgroundTint="#7c3aed"
+                    android:backgroundTint="#8b5cf6"
                     android:textColor="#ffffff"
-                    android:layout_marginEnd="8dp"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="6dp"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/btnTest"
+                    android:id="@+id/btnBattery"
                     android:layout_width="0dp"
-                    android:layout_height="55dp"
+                    android:layout_height="65dp"
                     android:layout_weight="1"
-                    android:text="TEST URL"
-                    android:backgroundTint="#64748b"
+                    android:text="TỐI ƯU PIN"
+                    android:backgroundTint="#f59e0b"
                     android:textColor="#ffffff"
-                    android:layout_marginStart="8dp"
+                    android:textSize="16sp"
+                    android:layout_marginStart="6dp"
                     android:textStyle="bold" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnTest"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:text="KIỂM TRA KẾT NỐI (TEST URL)"
+                android:backgroundTint="#475569"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Log Card -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/card_bg"
+            android:background="@drawable/card_bg_dark"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:elevation="4dp">
+            android:padding="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="10dp">
-                
+                android:layout_marginBottom="14dp">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="NHẬT KÝ HOẠT ĐỘNG"
                     android:textStyle="bold"
-                    android:textColor="#475569"
-                    android:textSize="13sp"/>
+                    android:textColor="#94a3b8"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/btnClearLogs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Xóa"
+                    android:text="XÓA"
                     android:textColor="#f43f5e"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:padding="5dp"/>
+                    android:padding="8dp"/>
             </LinearLayout>
 
             <TextView
                 android:id="@+id/txtLogs"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="#f1f5f9"
-                android:padding="12dp"
-                android:textSize="11sp"
-                android:textColor="#334155"
-                android:text="Hệ thống đã sẵn sàng...\nChào mừng bạn đến với QUYETDEV Bank v2.0\n"
+                android:layout_height="300dp"
+                android:background="#020617"
+                android:padding="15dp"
+                android:textSize="12sp"
+                android:textColor="#22c55e"
+                android:text="[Hệ thống v3.5 Sẵn sàng]\n"
                 android:fontFamily="monospace"
                 android:scrollbars="vertical"/>
         </LinearLayout>
