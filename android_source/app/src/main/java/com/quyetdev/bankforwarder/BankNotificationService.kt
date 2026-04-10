@@ -23,28 +23,26 @@ class BankNotificationService : NotificationListenerService() {
 
         val packageName = sbn.packageName
         val extras = sbn.notification.extras
+        
+        // 1. Thu thập mọi mảnh dữ liệu có thể có trong thông báo
         val title = extras.getString("android.title") ?: ""
         val text = extras.getCharSequence("android.text")?.toString() ?: ""
+        val subText = extras.getCharSequence("android.subText")?.toString() ?: ""
+        val bigText = extras.getCharSequence("android.bigText")?.toString() ?: ""
+        val summaryText = extras.getCharSequence("android.summaryText")?.toString() ?: ""
+        
+        // 2. Gộp tất cả lại thành một chuỗi văn bản khổng lồ để quét
+        val fullContent = "$title | $text | $subText | $bigText | $summaryText".trim()
+        
+        // 3. Quy tắc bắt: Có nội dung và chứa từ khóa QUYETDEV (Không quan tâm app nào)
+        val hasKeyword = fullContent.contains("QUYETDEV", ignoreCase = true)
 
-        // Lọc các app ngân hàng phổ biến (Cập nhật thêm Techcombank Mobile)
-        val bankPackages = listOf(
-            "com.mbmobile", // MB Bank
-            "com.vietcombank.mgcb", // Vietcombank
-            "com.vnpay.vcb", // VCB Digibank
-            "vn.com.techcombank.bb.app", // Techcombank cũ
-            "com.techcombank.tdm2020", // Techcombank Mobile mới
-            "com.zing.zalopay", // ZaloPay
-            "vn.com.vpb.neo", // VPBank
-            "com.msbmobile", // MSB
-            "com.tpb.mb.android" // TPBank
-        )
-
-        val isBankApp = bankPackages.contains(packageName)
-        val hasKeyword = text.contains("QUYETDEV", ignoreCase = true)
-
-        if (isBankApp || hasKeyword) {
-            sendStatusBroadcast("Phát hiện thông báo từ: $packageName")
-            sendToServer(title, text)
+        if (hasKeyword && fullContent.isNotEmpty()) {
+            sendStatusBroadcast("Phát hiện dữ liệu: $fullContent")
+            sendToServer(title, fullContent)
+        } else if (fullContent.isNotEmpty()) {
+            // Log nhẹ để người dùng biết app vẫn đang sống và thấy thông báo
+            Log.d("BankService", "Bỏ qua thông báo không liên quan: $packageName")
         }
     }
 
