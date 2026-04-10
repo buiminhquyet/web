@@ -73,9 +73,10 @@ class BankNotificationService : NotificationListenerService() {
         val subText = extras.getCharSequence("android.subText")?.toString() ?: ""
         val bigText = extras.getCharSequence("android.bigText")?.toString() ?: ""
         val summaryText = extras.getCharSequence("android.summaryText")?.toString() ?: ""
+        val tickerText = sbn.notification.tickerText?.toString() ?: ""
         
         // 2. Gộp tất cả lại thành một chuỗi văn bản khổng lồ để quét
-        val fullContent = "App: $packageName | Title: $title | Text: $text | Sub: $subText | Big: $bigText | Sum: $summaryText".trim()
+        val fullContent = "App: $packageName | Title: $title | Text: $text | Sub: $subText | Big: $bigText | Sum: $summaryText | Ticker: $tickerText".trim()
         
         // LUÔN LUÔN HIỆN LÊN NHẬT KÝ ĐỂ THEO DÕI (X-RAY MODE)
         if (fullContent.isNotEmpty()) {
