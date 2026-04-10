@@ -12,13 +12,26 @@ require_once __DIR__ . '/../includes/config.php';
 define('PRIVATE_TOKEN', 'QUYET_PRIVATE_API_SECURE_7788');
 // --- END CONFIGURATION ---
 
-// 1. Authenticate Request
-$headers = getallheaders();
-$receivedToken = $headers['X-Private-Token'] ?? $_POST['token'] ?? '';
+// 1. Debug Logging - Catch every single request
+$raw_data = file_get_contents('php://input');
+$log_msg = date('Y-m-d H:i:s') . " | HIT | Headers: " . json_encode(getallheaders()) . " | POST: " . json_encode($_POST) . " | RAW: " . $raw_data . "\n";
+file_put_contents(__DIR__ . '/bank_log.txt', $log_msg, FILE_APPEND);
+
+// 2. Authenticate Request
+$receivedToken = '';
+if (function_exists('getallheaders')) {
+    $headers = getallheaders();
+    $receivedToken = $headers['X-Private-Token'] ?? $headers['token'] ?? '';
+}
+
+// Fallback to $_SERVER if headers are missing (Common in CGI/FastCGI)
+if (empty($receivedToken)) {
+    $receivedToken = $_SERVER['HTTP_X_PRIVATE_TOKEN'] ?? $_SERVER['HTTP_TOKEN'] ?? $_POST['token'] ?? '';
+}
 
 if ($receivedToken !== PRIVATE_TOKEN) {
     header('HTTP/1.1 401 Unauthorized');
-    exit('Unauthorized access.');
+    exit('Unauthorized access. Received: ' . (empty($receivedToken) ? 'Nothing' : 'Wrong Token'));
 }
 
 // 2. Capture Notification Data
@@ -38,10 +51,17 @@ if (empty($content)) {
 // Extract Amount (Flexible regex for +x,xxx or "nhận được x.xxx")
 $amount = 0;
 // Pattern 1: Look for +10,000 or +10.000 (Common in Bank SMS/Push)
-if (preg_match('/[+]([\d,.]+)/', $content, $matches)) {
+// Extract Amount (Regex: Handle both +100,000 or just 100,000)
+$amount = 0;
+if (preg_match('/(?:[+]|vua nhan duoc|so du [\w]+:)\s*([\d,.]+)/i', $content, $matches)) {
     $amountStr = str_replace([',', '.'], '', $matches[1]);
     $amount = floatval($amountStr);
-} 
+} elseif (preg_match('/([\d,.]+)\s*(?:VND|đ|d)/i', $content, $matches)) {
+    // Fallback if no + but ends with VND or đ
+    $amountStr = str_replace([',', '.'], '', $matches[1]);
+    $amount = floatval($amountStr);
+}
+ 
 // Pattern 2: Look for "nhận được 10.000" or "nhận 10,000" (Common in ZaloPay/Momo)
 elseif (preg_match('/(?:nhận|nạp|cộng)\s+(?:được\s+)?([\d,.]+)/ui', $content, $matches)) {
     $amountStr = str_replace([',', '.'], '', $matches[1]);

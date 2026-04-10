@@ -81,7 +81,10 @@ class MainActivity : AppCompatActivity() {
         val request = Request.Builder()
             .url(url)
             .addHeader("X-Private-Token", token)
-            .post(FormBody.Builder().add("test", "1").build())
+            .post(FormBody.Builder()
+                .add("test", "1")
+                .add("token", token)
+                .build())
             .build()
 
         client.newCall(request).enqueue(object : Callback {
