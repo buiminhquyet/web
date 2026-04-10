@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         setupListeners()
         checkPermission()
         
-        registerReceiver(receiver, IntentFilter("com.quyetdev.LOG_UPDATE"), RECEIVER_EXPORTED)
+        registerReceiver(receiver, IntentFilter("com.quyetdev.LOG_UPDATE"))
         appendLog("App đã khởi động.")
     }
 
